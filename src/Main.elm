@@ -1,8 +1,8 @@
 module Main exposing (main)
 
 import Browser
-import Html exposing (Html, button, div, input, text)
-import Html.Attributes exposing (checked, disabled, name, style, type_, value)
+import Html exposing (Html, button, div, h1, input, text)
+import Html.Attributes exposing (checked, class, disabled, name, placeholder, style, type_, value)
 import Html.Events exposing (onClick, onInput)
 import Http
 import Json.Decode as Decode exposing (Decoder)
@@ -144,33 +144,49 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    div [ style "width" "300px", style "margin" "auto" ]
-        [ input
-            [ value
+    div [ class "flex flex-col w-[400px] m-auto gap-4 pt-16" ]
+        [ h1 [ class "text-2xl text-center" ] [ text "Prisma + Nuxt + Elm + Tailwind = 🎉" ]
+        , input
+            [ class "text-lg p-1 shadow-md"
+            , value
                 (Maybe.withDefault "" model.newTodo)
+            , placeholder "What needs to be done?"
             , onInput InputTodo
             ]
             []
         , button
-            [ disabled (model.newTodo == Nothing), onClick AddTodo ]
+            [ class "rounded-full p-2 bg-blue-500 hover:bg-blue-600 transition duration-50 text-white w-32 m-auto cursor-pointer"
+            , disabled (model.newTodo == Nothing)
+            , onClick AddTodo
+            ]
             [ text "Add Todo" ]
-        , div [ style "padding-top" "20px" ]
+        , div [ class "w-full flex flex-col gap-2" ]
             (List.map
                 (\todo ->
                     div
-                        [ style "display" "flex"
-                        , style "justify-content" "space-between"
-                        , style "padding" "5px 0"
+                        [ class "flex space-between items-center gap-4"
                         ]
                         [ input
                             [ type_ "checkbox"
+                            , class "w-6 h-6 accent-green-500 hover:checked:accent-green-600"
                             , checked todo.completed
                             , name (String.fromInt todo.id)
                             , onClick (ToggleTodo todo.id)
                             ]
                             []
-                        , text todo.title
-                        , button [ onClick (RemoveTodo todo.id) ] [ text "X" ]
+                        , div
+                            [ class
+                                ("flex-grow"
+                                    ++ (if todo.completed then
+                                            " text-green-700 italic"
+
+                                        else
+                                            ""
+                                       )
+                                )
+                            ]
+                            [ text todo.title ]
+                        , button [ class "bg-red-500 hover:bg-red-600 transition duration-50 text-white w-8 h-8 rounded-full", onClick (RemoveTodo todo.id) ] [ text "X" ]
                         ]
                 )
                 model.todos

@@ -24,3 +24,9 @@ model User {
   name  String?
   posts Post[]
 }
+
+model Todo {
+  id        Int     @id @default(autoincrement())
+  title     String
+  completed Boolean @default(false)
+}
