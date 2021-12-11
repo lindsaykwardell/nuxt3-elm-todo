@@ -3,7 +3,6 @@
 </template>
 
 <script setup lang="ts">
-// @ts-ignore
 import { Elm } from "../src/Main.elm";
 import type { Todo } from "../server/db";
 import elmBridge from "elm-vue-bridge";

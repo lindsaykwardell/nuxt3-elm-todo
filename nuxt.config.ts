@@ -8,4 +8,14 @@ export default defineNuxtConfig({
   },
   ssr: true,
   target: "static",
+  build: {
+    postcss: {
+      postcssOptions: {
+        plugins: {
+          tailwindcss: {},
+          autoprefixer: {},
+        },
+      },
+    },
+  },
 });
